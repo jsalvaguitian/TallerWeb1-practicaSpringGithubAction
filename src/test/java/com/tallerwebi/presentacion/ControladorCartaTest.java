@@ -1,5 +1,7 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.Carta;
+import com.tallerwebi.dominio.ServicioCarta;
 import com.tallerwebi.dominio.ServicioCartaImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,28 +9,29 @@ import org.springframework.web.servlet.ModelAndView;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ControladorCartaTest {
 
-    private ServicioCartaImpl servicioCarta;
+    private ServicioCarta servicioCarta;
     private ControladorCarta controladorCarta;
 
     @BeforeEach
     public void init(){
-        servicioCarta = new ServicioCartaImpl();
+        servicioCarta = mock(ServicioCarta.class);
         controladorCarta = new ControladorCarta(servicioCarta);
     }
     @Test
     public void dadoQueSePuedaCrearCartasCuandoCreoUnaObtengoUnMensajeDeExito(){
         //preparacion
-        CartaDto carta = new CartaDto();
-        carta.setNombre("Carta 1");
+        Carta cartaMock = mock(Carta.class);
+        CartaDto cartaDto = new CartaDto(cartaMock);
+        //carta.setNombre("Carta 1");
 
-        /*this.servicioCarta = new ServicioCartaImpl();
-        this.controladorCarta = new  ControladorCarta(servicioCarta);*/
-
+        when(servicioCarta.crear(cartaDto)).thenReturn(true);//nos desprendemos de la implementacion del servicio
         //ejecucion
-        ModelAndView modelAndView = controladorCarta.crearCarta(carta);
+        ModelAndView modelAndView = controladorCarta.crearCarta(cartaDto);
 
         //verificacion
         String vistaEsperada = "crear-carta";
@@ -42,8 +45,11 @@ public class ControladorCartaTest {
     @Test
     public void dadoQueSePuedaCrearCartasCuandoIntenteCrearUnaCartaDeUnMensajeDeError(){
         //preparacion
-        CartaDto carta = new CartaDto();
+        Carta cartaMock = mock(Carta.class);
+        CartaDto carta = new CartaDto(cartaMock);
         carta.setNombre("");
+
+        when(servicioCarta.crear(carta)).thenReturn(false);
 
         //ejecucion
         ModelAndView modelAndView = controladorCarta.crearCarta(carta);
