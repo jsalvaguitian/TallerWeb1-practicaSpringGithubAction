@@ -5,13 +5,17 @@ import java.util.List;
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.tallerwebi.dominio.Carta;
 import com.tallerwebi.dominio.RepositorioCarta;
 
+@Repository
 public class RepositorioCartaImpl implements RepositorioCarta {
     private SessionFactory sessionFactory;
 
+    @Autowired
     public RepositorioCartaImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
