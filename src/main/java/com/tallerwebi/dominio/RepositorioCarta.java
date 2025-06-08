@@ -2,7 +2,6 @@ package com.tallerwebi.dominio;
 
 import java.util.List;
 
-import com.tallerwebi.presentacion.CartaDto;
 
 public interface RepositorioCarta {
 
